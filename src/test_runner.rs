@@ -32,3 +32,13 @@ where
         }
     }
 }
+
+pub fn run_timer<F>(cb: F)
+where
+    F: Fn() -> (),
+{
+    let sys_time = SystemTime::now();
+    cb();
+    let difference = SystemTime::now().duration_since(sys_time).expect("lol");
+    println!("time: {:?}", difference);
+}
