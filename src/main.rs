@@ -7,7 +7,7 @@ mod test_runner;
 
 use crate::fibo::fibo_b;
 use crate::test_runner::{run_test, run_timer};
-use crate::my_array::{MyDumpArray, MyAddArray, MyMulArray};
+use crate::my_array::{SingleArray, VectorArray, FactorArray};
 
 fn main() {
     // run_test("./src/4.Fibo", |input| {
@@ -16,7 +16,7 @@ fn main() {
     // });
 
 /*    run_timer(|| {
-        let mut my_arr = MyDumpArray::new();
+        let mut my_arr = SingleArray::new();
         for i in 0..10_000 {
             // 1_000 ~36ms
             // 10_000 ~3.74s
@@ -26,7 +26,7 @@ fn main() {
     })
 */
 /*    run_timer(|| {
-        let mut my_arr = MyAddArray::new();
+        let mut my_arr = VectorArray::new(3);
         for i in 0..200_000 {
             // step 10
             // 1_000 ~3.6ms
@@ -43,7 +43,7 @@ fn main() {
     });
 */
 /*    run_timer(|| {
-        let mut my_arr = MyMulArray::new();
+        let mut my_arr = FactorArray::new();
         for i in 0..1_000_000 {
             // 1_000 ~0.1ms
             // 10_000 ~1.72ms
