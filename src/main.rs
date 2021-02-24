@@ -15,7 +15,7 @@ fn main() {
     //     result.to_string()
     // });
 
-    /*    let mut my_arr = SingleArray::new();
+       let mut my_arr = VectorArray::new(3);
         my_arr.add(1);
         my_arr.add(2);
         my_arr.add(3);
@@ -27,17 +27,17 @@ fn main() {
         my_arr.add_to(10, 2);
         println!("arr: {:?}", my_arr);
 
-        let removed = my_arr.remove(3);
-        println!("arr: {:?} -------- {:?}", my_arr, removed);
-    */
+        // let removed = my_arr.remove(3);
+        // println!("arr: {:?} -------- {:?}", my_arr, removed);
+
 
     // test_arr(&mut SingleArray::new(), 1000); // ~0.03 s
     // test_arr(&mut SingleArray::new(), 10000); // ~3.87 s
     // test_arr(&mut SingleArray::new(), 20000); // ~15.5 s
 
-    test_arr(&mut VectorArray::new(10), 1000); // ~0.03 s
-    test_arr(&mut VectorArray::new(10), 10000); // ~3.87 s
-    test_arr(&mut VectorArray::new(10), 20000); // ~15.5 s
+    // test_arr(&mut VectorArray::new(10), 1000); // ~0.03 s
+    // test_arr(&mut VectorArray::new(10), 10000); // ~3.87 s
+    // test_arr(&mut VectorArray::new(10), 20000); // ~15.5 s
 
     // test_arr(&mut VectorArray::new(10), 1000); // ~0.03 s
     // test_arr(&mut VectorArray::new(10), 10000); // ~3.87 s

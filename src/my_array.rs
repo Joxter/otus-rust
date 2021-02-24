@@ -7,20 +7,21 @@ pub struct SingleArray {
 }
 
 pub trait MyArray {
-    fn new() -> Self;
     fn add(&mut self, value: i32);
     fn add_to(&mut self, value: i32, index: usize);
     fn remove(&mut self, index: usize) -> i32;
 }
 
-impl MyArray for SingleArray {
-    fn new() -> SingleArray {
+impl SingleArray {
+    pub fn new() -> SingleArray {
         SingleArray {
             arr: Vec::with_capacity(0),
             len: 0,
         }
     }
+}
 
+impl MyArray for SingleArray {
     fn add(&mut self, value: i32) {
         let mut new_arr = vec![0; self.len + 1];
 
@@ -84,25 +85,53 @@ impl VectorArray {
             step,
         }
     }
+}
 
-    pub fn add(&mut self, value: i32) {
+impl MyArray for VectorArray {
+    fn add(&mut self, value: i32) {
         if self.len < self.capacity {
             self.arr[self.len] = value;
             self.len += 1;
             return;
         }
 
-        let curr_len = self.len;
         self.capacity += self.step;
         let mut new_arr = vec![0; self.capacity];
 
-        for i in 0..curr_len {
+        for i in 0..self.len {
             new_arr[i] = self.arr[i];
         }
-        new_arr[curr_len] = value;
+        new_arr[self.len] = value;
 
         self.len += 1;
         self.arr = new_arr;
+    }
+
+    fn add_to(&mut self, value: i32, index: usize) {
+        // if self.len < self.capacity {
+        //     self.arr[self.len] = value;
+        //     self.len += 1;
+        //     return;
+        // }
+
+        self.capacity += self.step;
+        let mut new_arr = vec![0; self.capacity];
+
+        for i in 0..index {
+            new_arr[i] = self.arr[i];
+        }
+
+        for i in ((index + 1)..self.len).rev() {
+            new_arr[i] = self.arr[i - 1];
+        }
+        new_arr[index] = value;
+
+        self.len += 1;
+        self.arr = new_arr;
+    }
+
+    fn remove(&mut self, _index: usize) -> i32 {
+        unimplemented!()
     }
 }
 
@@ -155,4 +184,3 @@ pub fn test_arr<T: MyArray>(arr: &mut T, n: i32) {
     let difference = SystemTime::now().duration_since(sys_time).expect("lol");
     println!("time: {:?}", difference);
 }
-
