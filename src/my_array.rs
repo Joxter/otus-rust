@@ -1,30 +1,69 @@
+use std::time::SystemTime;
+
 #[derive(Debug)]
 pub struct SingleArray {
     len: usize,
     arr: Vec<i32>,
 }
 
-// todo implement method: T remove(int index);
-impl SingleArray {
-    pub fn new() -> SingleArray {
+pub trait MyArray {
+    fn new() -> Self;
+    fn add(&mut self, value: i32);
+    fn add_to(&mut self, value: i32, index: usize);
+    fn remove(&mut self, index: usize) -> i32;
+}
+
+impl MyArray for SingleArray {
+    fn new() -> SingleArray {
         SingleArray {
             arr: Vec::with_capacity(0),
             len: 0,
         }
     }
 
-    pub fn add(&mut self, value: i32) {
-        let curr_len = self.len;
-        let new_len = curr_len + 1;
-        let mut new_arr = vec![0; new_len];
+    fn add(&mut self, value: i32) {
+        let mut new_arr = vec![0; self.len + 1];
 
-        for i in 0..curr_len {
+        for i in 0..(self.len) {
             new_arr[i] = self.arr[i];
         }
-        new_arr[curr_len] = value;
+        new_arr[self.len] = value;
 
-        self.len = new_len;
+        self.len = self.len + 1;
         self.arr = new_arr;
+    }
+
+    fn add_to(&mut self, value: i32, index: usize) {
+        self.len = self.len + 1;
+        let mut new_arr = vec![0; self.len];
+
+        for i in 0..index {
+            new_arr[i] = self.arr[i];
+        }
+
+        for i in ((index + 1)..self.len).rev() {
+            new_arr[i] = self.arr[i - 1];
+        }
+
+        new_arr[index] = value;
+        self.arr = new_arr;
+    }
+
+    fn remove(&mut self, index: usize) -> i32 {
+        self.len = self.len - 1;
+        let res = self.arr[index];
+        let mut new_arr = vec![0; self.len];
+
+        for i in 0..index {
+            new_arr[i] = self.arr[i];
+        }
+
+        for i in index..self.len {
+            new_arr[i] = self.arr[i + 1];
+        }
+
+        self.arr = new_arr;
+        res
     }
 }
 
@@ -107,3 +146,13 @@ impl FactorArray {
         self.arr = new_arr;
     }
 }
+
+pub fn test_arr<T: MyArray>(arr: &mut T, n: i32) {
+    let sys_time = SystemTime::now();
+    for i in 0..n {
+        arr.add(i);
+    }
+    let difference = SystemTime::now().duration_since(sys_time).expect("lol");
+    println!("time: {:?}", difference);
+}
+

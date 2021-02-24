@@ -6,8 +6,8 @@ mod my_array;
 mod test_runner;
 
 use crate::fibo::fibo_b;
+use crate::my_array::{FactorArray, MyArray, SingleArray, VectorArray, test_arr};
 use crate::test_runner::{run_test, run_timer};
-use crate::my_array::{SingleArray, VectorArray, FactorArray};
 
 fn main() {
     // run_test("./src/4.Fibo", |input| {
@@ -15,53 +15,71 @@ fn main() {
     //     result.to_string()
     // });
 
-/*    run_timer(|| {
-        let mut my_arr = SingleArray::new();
-        for i in 0..10_000 {
-            // 1_000 ~36ms
-            // 10_000 ~3.74s
-            // 100_000 ~371.1s
-            my_arr.add(i);
-        }
-    })
-*/
-/*    run_timer(|| {
-        let mut my_arr = VectorArray::new(3);
-        for i in 0..200_000 {
-            // step 10
-            // 1_000 ~3.6ms
-            // 10_000 ~330.34ms
-            // 100_000 ~37.64s
+    /*    let mut my_arr = SingleArray::new();
+        my_arr.add(1);
+        my_arr.add(2);
+        my_arr.add(3);
+        my_arr.add(4);
+        my_arr.add(5);
 
-            // step 100
-            // 1_000 ~0.3ms
-            // 10_000 ~37.78ms
-            // 100_000 ~3.95s
-            // 200_000 ~15.72s
-            my_arr.add(i);
-        }
-    });
-*/
-/*    run_timer(|| {
-        let mut my_arr = FactorArray::new();
-        for i in 0..1_000_000 {
-            // 1_000 ~0.1ms
-            // 10_000 ~1.72ms
-            // 100_000 ~15.95ms
-            // 1_000_000 ~140.89ms
-            // 10_000_000 ~136.38ms
-            my_arr.add(i);
-        }
-    });
-*/
-/*    run_timer(|| {
-        let mut my_arr = vec![];
-        for i in 0..10_000_000 {
-            // 100_000 ~5.95ms
-            // 1_000_000 ~50.89ms
-            // 10_000_000 ~522.41ms
-            my_arr.push(i);
-        }
-    });
-*/
+        println!("arr: {:?}", my_arr);
+
+        my_arr.add_to(10, 2);
+        println!("arr: {:?}", my_arr);
+
+        let removed = my_arr.remove(3);
+        println!("arr: {:?} -------- {:?}", my_arr, removed);
+    */
+
+    // test_arr(&mut SingleArray::new(), 1000); // ~0.03 s
+    // test_arr(&mut SingleArray::new(), 10000); // ~3.87 s
+    // test_arr(&mut SingleArray::new(), 20000); // ~15.5 s
+
+    test_arr(&mut VectorArray::new(10), 1000); // ~0.03 s
+    test_arr(&mut VectorArray::new(10), 10000); // ~3.87 s
+    test_arr(&mut VectorArray::new(10), 20000); // ~15.5 s
+
+    // test_arr(&mut VectorArray::new(10), 1000); // ~0.03 s
+    // test_arr(&mut VectorArray::new(10), 10000); // ~3.87 s
+    // test_arr(&mut VectorArray::new(10), 20000); // ~15.5 s
+
+    /*    run_timer(|| {
+            let mut my_arr = VectorArray::new(3);
+            for i in 0..200_000 {
+                // step 10
+                // 1_000 ~3.6ms
+                // 10_000 ~330.34ms
+                // 100_000 ~37.64s
+
+                // step 100
+                // 1_000 ~0.3ms
+                // 10_000 ~37.78ms
+                // 100_000 ~3.95s
+                // 200_000 ~15.72s
+                my_arr.add(i);
+            }
+        });
+    */
+    /*    run_timer(|| {
+            let mut my_arr = FactorArray::new();
+            for i in 0..1_000_000 {
+                // 1_000 ~0.1ms
+                // 10_000 ~1.72ms
+                // 100_000 ~15.95ms
+                // 1_000_000 ~140.89ms
+                // 10_000_000 ~136.38ms
+                my_arr.add(i);
+            }
+        });
+    */
+    /*    run_timer(|| {
+            let mut my_arr = vec![];
+            for i in 0..10_000_000 {
+                // 100_000 ~5.95ms
+                // 1_000_000 ~50.89ms
+                // 10_000_000 ~522.41ms
+                my_arr.push(i);
+            }
+        });
+    */
 }
