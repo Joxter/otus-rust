@@ -130,8 +130,26 @@ impl MyArray for VectorArray {
         self.arr = new_arr;
     }
 
-    fn remove(&mut self, _index: usize) -> i32 {
-        unimplemented!()
+    fn remove(&mut self, index: usize) -> i32 {
+        self.len = self.len - 1;
+
+        if self.capacity - self.len >= self.step {
+            self.capacity -= self.step;
+        }
+
+        let res = self.arr[index];
+        let mut new_arr = vec![0; self.capacity];
+
+        for i in 0..index {
+            new_arr[i] = self.arr[i];
+        }
+
+        for i in index..self.len {
+            new_arr[i] = self.arr[i + 1];
+        }
+
+        self.arr = new_arr;
+        res
     }
 }
 

@@ -15,7 +15,7 @@ fn main() {
     //     result.to_string()
     // });
 
-       let mut my_arr = VectorArray::new(3);
+/*       let mut my_arr = VectorArray::new(3);
         my_arr.add(1);
         my_arr.add(2);
         my_arr.add(3);
@@ -27,39 +27,27 @@ fn main() {
         my_arr.add_to(10, 2);
         println!("arr: {:?}", my_arr);
 
-        // let removed = my_arr.remove(3);
-        // println!("arr: {:?} -------- {:?}", my_arr, removed);
+        let removed = my_arr.remove(3);
+        println!("arr: {:?} -------- {:?}", my_arr, removed);
+*/
 
+    // test_arr(&mut SingleArray::new(), 1_000); // ~0.03 s
+    // test_arr(&mut SingleArray::new(), 10_000); // ~3.87 s
+    // test_arr(&mut SingleArray::new(), 20_000); // ~15.5 s
 
-    // test_arr(&mut SingleArray::new(), 1000); // ~0.03 s
-    // test_arr(&mut SingleArray::new(), 10000); // ~3.87 s
-    // test_arr(&mut SingleArray::new(), 20000); // ~15.5 s
+    // test_arr(&mut VectorArray::new(10), 1_000); // ~0.03 s
+    // test_arr(&mut VectorArray::new(10), 10_000); // ~0.362 s
+    // test_arr(&mut VectorArray::new(10), 20_000); // ~1.54 s
+    // test_arr(&mut VectorArray::new(10), 50_000); // ~9.24 s
 
-    // test_arr(&mut VectorArray::new(10), 1000); // ~0.03 s
-    // test_arr(&mut VectorArray::new(10), 10000); // ~3.87 s
-    // test_arr(&mut VectorArray::new(10), 20000); // ~15.5 s
+    // test_arr(&mut VectorArray::new(100), 1_000); // ~0.00 s
+    // test_arr(&mut VectorArray::new(100), 10_000); // ~0.03 s
+    // test_arr(&mut VectorArray::new(100), 20_000); // ~0.14 s
+    // test_arr(&mut VectorArray::new(100), 50_000); // ~0.92 s
+    // test_arr(&mut VectorArray::new(100), 100_000); // ~3.74 s
+    // test_arr(&mut VectorArray::new(1000), 100_000); // ~0.37 s
+    // test_arr(&mut VectorArray::new(1000), 500_000); // ~9.38 s
 
-    // test_arr(&mut VectorArray::new(10), 1000); // ~0.03 s
-    // test_arr(&mut VectorArray::new(10), 10000); // ~3.87 s
-    // test_arr(&mut VectorArray::new(10), 20000); // ~15.5 s
-
-    /*    run_timer(|| {
-            let mut my_arr = VectorArray::new(3);
-            for i in 0..200_000 {
-                // step 10
-                // 1_000 ~3.6ms
-                // 10_000 ~330.34ms
-                // 100_000 ~37.64s
-
-                // step 100
-                // 1_000 ~0.3ms
-                // 10_000 ~37.78ms
-                // 100_000 ~3.95s
-                // 200_000 ~15.72s
-                my_arr.add(i);
-            }
-        });
-    */
     /*    run_timer(|| {
             let mut my_arr = FactorArray::new();
             for i in 0..1_000_000 {
