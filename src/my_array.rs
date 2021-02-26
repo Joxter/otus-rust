@@ -169,7 +169,7 @@ impl FactorArray {
 }
 
 impl MyArray for FactorArray {
-     fn add(&mut self, value: i32) {
+    fn add(&mut self, value: i32) {
         if self.len < self.capacity {
             self.arr[self.len] = value;
             self.len += 1;
@@ -236,6 +236,37 @@ impl MyArray for FactorArray {
     }
 }
 
+#[derive(Debug)]
+pub struct PureArray {
+    len: usize,
+    arr: Vec<i32>,
+}
+
+impl PureArray {
+    pub fn new() -> PureArray {
+        PureArray {
+            arr: Vec::with_capacity(0),
+            len: 0,
+        }
+    }
+}
+
+impl MyArray for PureArray {
+    fn add(&mut self, value: i32) {
+        self.len += 1;
+        self.arr.push(value);
+    }
+
+    fn add_to(&mut self, value: i32, index: usize) {
+        self.len += 1;
+        self.arr.insert(index, value);
+    }
+
+    fn remove(&mut self, index: usize) -> i32 {
+        self.arr.remove(index)
+    }
+}
+
 fn test_arr<T: MyArray>(title: &str, arr: &mut T, n: i32) {
     let sys_time = SystemTime::now();
     for i in 0..n {
@@ -267,27 +298,38 @@ fn test_array<T: MyArray + std::fmt::Debug>(my_arr: &mut T) {
 }
 
 /*
-Test: "SingleArray" N:1000 time: 0.0386 sec
+Test: "SingleArray"  N:1000 time: 0.0386 sec
 Test: "SingleArray" N:10000 time: 3.8576 sec
 Test: "SingleArray" N:20000 time: 15.5518 sec
 
-Test: "VectorArray::new(10)" N:1000 time: 0.0039 sec
-Test: "VectorArray::new(10)" N:10000 time: 0.3795 sec
-Test: "VectorArray::new(10)" N:20000 time: 1.4855 sec
-Test: "VectorArray::new(10)" N:50000 time: 9.5125 sec
-
-Test: "VectorArray::new(100)" N:1000 time: 0.0004 sec
-Test: "VectorArray::new(100)" N:10000 time: 0.0367 sec
-Test: "VectorArray::new(100)" N:20000 time: 0.1579 sec
-Test: "VectorArray::new(100)" N:50000 time: 0.9461 sec
-Test: "VectorArray::new(100)" N:100000 time: 3.7942 sec
+Test: "VectorArray::new(10)"     N:1000 time: 0.0039 sec
+Test: "VectorArray::new(10)"    N:10000 time: 0.3795 sec
+Test: "VectorArray::new(10)"    N:20000 time: 1.4855 sec
+Test: "VectorArray::new(10)"    N:50000 time: 9.5125 sec
+Test: "VectorArray::new(100)"    N:1000 time: 0.0004 sec
+Test: "VectorArray::new(100)"   N:10000 time: 0.0367 sec
+Test: "VectorArray::new(100)"   N:20000 time: 0.1579 sec
+Test: "VectorArray::new(100)"   N:50000 time: 0.9461 sec
+Test: "VectorArray::new(100)"  N:100000 time: 3.7942 sec
 Test: "VectorArray::new(1000)" N:100000 time: 0.3959 sec
 Test: "VectorArray::new(1000)" N:500000 time: 9.5184 sec
+
+Test: "FactorArray::new()"     N:1000 time: 0.0001 sec
+Test: "FactorArray::new()"    N:10000 time: 0.0018 sec
+Test: "FactorArray::new()"   N:100000 time: 0.0152 sec
+Test: "FactorArray::new()"  N:1000000 time: 0.1353 sec
+Test: "FactorArray::new()" N:10000000 time: 1.8687 sec
+
+Test: "PureArray::new()"     N:1000 time: 0.0001 sec
+Test: "PureArray::new()"    N:10000 time: 0.0005 sec
+Test: "PureArray::new()"   N:100000 time: 0.0049 sec
+Test: "PureArray::new()"  N:1000000 time: 0.0514 sec
+Test: "PureArray::new()" N:10000000 time: 0.5432 sec
 */
 pub fn run_array_tests() {
-    test_array(&mut SingleArray::new());
-    test_array(&mut VectorArray::new(3));
-    test_array(&mut FactorArray::new());
+    // test_array(&mut SingleArray::new());
+    // test_array(&mut VectorArray::new(3));
+    // test_array(&mut FactorArray::new());
 
     // test_arr("SingleArray", &mut SingleArray::new(), 1_000);
     // test_arr("SingleArray", &mut SingleArray::new(), 10_000);
@@ -297,7 +339,6 @@ pub fn run_array_tests() {
     // test_arr("VectorArray::new(10)", &mut VectorArray::new(10), 10_000);
     // test_arr("VectorArray::new(10)", &mut VectorArray::new(10), 20_000);
     // test_arr("VectorArray::new(10)", &mut VectorArray::new(10), 50_000);
-
     // test_arr("VectorArray::new(100)", &mut VectorArray::new(100), 1_000);
     // test_arr("VectorArray::new(100)", &mut VectorArray::new(100), 10_000);
     // test_arr("VectorArray::new(100)", &mut VectorArray::new(100), 20_000);
@@ -306,33 +347,15 @@ pub fn run_array_tests() {
     // test_arr("VectorArray::new(1000)", &mut VectorArray::new(1000), 100_000);
     // test_arr("VectorArray::new(1000)", &mut VectorArray::new(1000), 500_000);
 
-// TODO ALL BELOW
     // test_arr("FactorArray::new()", &mut FactorArray::new(), 1_000);
     // test_arr("FactorArray::new()", &mut FactorArray::new(), 10_000);
     // test_arr("FactorArray::new()", &mut FactorArray::new(), 100_000);
     // test_arr("FactorArray::new()", &mut FactorArray::new(), 1_000_000);
     // test_arr("FactorArray::new()", &mut FactorArray::new(), 10_000_000);
 
-    /*    run_timer(|| {
-            let mut my_arr = FactorArray::new();
-            for i in 0..1_000_000 {
-                // 1_000 ~0.1ms
-                // 10_000 ~1.72ms
-                // 100_000 ~15.95ms
-                // 1_000_000 ~140.89ms
-                // 10_000_000 ~136.38ms
-                my_arr.add(i);
-            }
-        });
-    */
-    /*    run_timer(|| {
-            let mut my_arr = vec![];
-            for i in 0..10_000_000 {
-                // 100_000 ~5.95ms
-                // 1_000_000 ~50.89ms
-                // 10_000_000 ~522.41ms
-                my_arr.push(i);
-            }
-        });
-    */
+    // test_arr("PureArray::new()", &mut PureArray::new(), 1_000);
+    // test_arr("PureArray::new()", &mut PureArray::new(), 10_000);
+    // test_arr("PureArray::new()", &mut PureArray::new(), 100_000);
+    // test_arr("PureArray::new()", &mut PureArray::new(), 1_000_000);
+    // test_arr("PureArray::new()", &mut PureArray::new(), 10_000_000);
 }
