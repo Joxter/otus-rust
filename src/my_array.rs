@@ -125,7 +125,6 @@ impl MyArray for VectorArray {
         }
         new_arr[index] = value;
 
-        self.len += 1;
         self.arr = new_arr;
     }
 
@@ -143,7 +142,7 @@ impl MyArray for VectorArray {
             new_arr[i] = self.arr[i];
         }
 
-        for i in index..(self.len - 1) {
+        for i in index..self.len {
             new_arr[i] = self.arr[i + 1];
         }
 
@@ -195,11 +194,45 @@ impl MyArray for FactorArray {
     }
 
     fn add_to(&mut self, value: i32, index: usize) {
-        unimplemented!()
+        if self.len == self.capacity {
+            self.capacity = self.capacity * 2 + 1;
+        }
+        self.len += 1;
+
+        let mut new_arr = vec![0; self.capacity];
+
+        for i in 0..index {
+            new_arr[i] = self.arr[i];
+        }
+
+        for i in ((index + 1)..self.len).rev() {
+            new_arr[i] = self.arr[i - 1];
+        }
+        new_arr[index] = value;
+
+        self.arr = new_arr;
     }
 
     fn remove(&mut self, index: usize) -> i32 {
-        unimplemented!()
+        self.len -= 1;
+
+        if self.len * 2 < self.capacity {
+            self.capacity /= 2;
+        }
+
+        let res = self.arr[index];
+        let mut new_arr = vec![0; self.capacity];
+
+        for i in 0..index {
+            new_arr[i] = self.arr[i];
+        }
+
+        for i in index..self.len {
+            new_arr[i] = self.arr[i + 1];
+        }
+
+        self.arr = new_arr;
+        res
     }
 }
 
@@ -252,8 +285,8 @@ Test: "VectorArray::new(1000)" N:100000 time: 0.3959 sec
 Test: "VectorArray::new(1000)" N:500000 time: 9.5184 sec
 */
 pub fn run_array_tests() {
-    // test_array(&mut SingleArray::new());
-    // test_array(&mut VectorArray::new(3));
+    test_array(&mut SingleArray::new());
+    test_array(&mut VectorArray::new(3));
     test_array(&mut FactorArray::new());
 
     // test_arr("SingleArray", &mut SingleArray::new(), 1_000);
