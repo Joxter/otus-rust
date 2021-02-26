@@ -1,3 +1,4 @@
+use core::fmt::Debug;
 use std::time::SystemTime;
 
 #[derive(Debug)]
@@ -108,13 +109,11 @@ impl MyArray for VectorArray {
     }
 
     fn add_to(&mut self, value: i32, index: usize) {
-        // if self.len < self.capacity {
-        //     self.arr[self.len] = value;
-        //     self.len += 1;
-        //     return;
-        // }
+        if self.len == self.capacity {
+            self.capacity += self.step;
+        }
+        self.len += 1;
 
-        self.capacity += self.step;
         let mut new_arr = vec![0; self.capacity];
 
         for i in 0..index {
@@ -131,7 +130,7 @@ impl MyArray for VectorArray {
     }
 
     fn remove(&mut self, index: usize) -> i32 {
-        self.len = self.len - 1;
+        self.len -= 1;
 
         if self.capacity - self.len >= self.step {
             self.capacity -= self.step;
@@ -144,7 +143,7 @@ impl MyArray for VectorArray {
             new_arr[i] = self.arr[i];
         }
 
-        for i in index..self.len {
+        for i in index..(self.len - 1) {
             new_arr[i] = self.arr[i + 1];
         }
 
@@ -168,8 +167,10 @@ impl FactorArray {
             capacity: 0,
         }
     }
+}
 
-    pub fn add(&mut self, value: i32) {
+impl MyArray for FactorArray {
+     fn add(&mut self, value: i32) {
         if self.len < self.capacity {
             self.arr[self.len] = value;
             self.len += 1;
@@ -192,6 +193,14 @@ impl FactorArray {
         self.len += 1;
         self.arr = new_arr;
     }
+
+    fn add_to(&mut self, value: i32, index: usize) {
+        unimplemented!()
+    }
+
+    fn remove(&mut self, index: usize) -> i32 {
+        unimplemented!()
+    }
 }
 
 fn test_arr<T: MyArray>(title: &str, arr: &mut T, n: i32) {
@@ -200,7 +209,28 @@ fn test_arr<T: MyArray>(title: &str, arr: &mut T, n: i32) {
         arr.add(i);
     }
     let difference = SystemTime::now().duration_since(sys_time).unwrap();
-    println!("Test: \"{}\" N:{} time: {:.4} sec", title, n, difference.as_secs_f32());
+    println!(
+        "Test: \"{}\" N:{} time: {:.4} sec",
+        title,
+        n,
+        difference.as_secs_f32()
+    );
+}
+
+fn test_array<T: MyArray + std::fmt::Debug>(my_arr: &mut T) {
+    my_arr.add(1);
+    my_arr.add(2);
+    my_arr.add(3);
+    my_arr.add(4);
+    my_arr.add(5);
+
+    println!("arr: {:?}", my_arr);
+
+    my_arr.add_to(10, 2);
+    println!("arr: {:?}", my_arr);
+
+    let removed = my_arr.remove(3);
+    println!("arr: {:?} -------- {:?}", my_arr, removed);
 }
 
 /*
@@ -222,6 +252,10 @@ Test: "VectorArray::new(1000)" N:100000 time: 0.3959 sec
 Test: "VectorArray::new(1000)" N:500000 time: 9.5184 sec
 */
 pub fn run_array_tests() {
+    // test_array(&mut SingleArray::new());
+    // test_array(&mut VectorArray::new(3));
+    test_array(&mut FactorArray::new());
+
     // test_arr("SingleArray", &mut SingleArray::new(), 1_000);
     // test_arr("SingleArray", &mut SingleArray::new(), 10_000);
     // test_arr("SingleArray", &mut SingleArray::new(), 20_000);
